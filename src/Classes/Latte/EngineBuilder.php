@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CloudBase\PluginCore\Classes\Latte;
 
+use CloudBase\PluginCore\CloudBase;
 use Latte\Engine;
 
 class EngineBuilder
@@ -17,7 +18,7 @@ class EngineBuilder
 
         $viewsDirectory = $packageName
             ? sprintf('%s/vendor/%s/views', $_ENV['APP_BASE_PATH'], $packageName)
-            : $this->getDefaultViewsDirectory();
+            : CloudBase::getBaseViewsDirectory();
 
         $fileLoader = new MultiPathLoader($viewsDirectory);
 
