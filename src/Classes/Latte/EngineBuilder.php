@@ -11,17 +11,12 @@ class EngineBuilder
 {
     private const string DEFAULT_VIEWS_DIRECTORY = '%s/views';
 
-    public function getEngine(string $packageName = null): Engine
+    public function getEngine(): Engine
     {
         $latte = new Engine();
+        $fileLoader = new MultiPathLoader('');
+
         $latte->setTempDirectory(sprintf('%s/var/cache/latte', $_ENV['APP_BASE_PATH']));
-
-        $viewsDirectory = $packageName
-            ? sprintf('%s/vendor/%s/views', $_ENV['APP_BASE_PATH'], $packageName)
-            : CloudBase::getBaseViewsDirectory();
-
-        $fileLoader = new MultiPathLoader($viewsDirectory);
-
         $latte->setLoader($fileLoader);
 
         return $latte;
