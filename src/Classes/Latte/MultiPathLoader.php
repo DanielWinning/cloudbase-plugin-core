@@ -13,6 +13,13 @@ class MultiPathLoader extends FileLoader
     {
         $file = $this->baseDir . $fileName;
 
+        if (str_contains($file, '@')) {
+            $pathParts = explode('/', $file);
+            $package = $pathParts[0] . '/' . $pathParts[1];
+
+            $file = sprintf('%s/vendor/%s/views/%s', $_ENV['APP_BASE_PATH'], str_replace('@', '', $package), str_replace($package, '', $fileName));
+        }
+
         if (!is_file($file)) {
             throw new TemplateNotFoundException("Missing template file '$file'.");
         } elseif ($this->isExpired($fileName, time())) {
